@@ -40,7 +40,7 @@ print $output;
 
 $data['To']   = '+447584900848';
 $data['From'] = '+441683292010';
-$data['Body'] = "Bobby!\nCalorie goal today is " . $calc['calorie_goal'] . "kcal!\nProtein Goal: " . $calc['protein_goal'] . "\nBody Fat: " . $bodyfat . "%\nWeight: " . $mass . "kg\nGood luck fatty!";
+$data['Body'] = "Bobby!\nCalorie goal today is " . $calc['calorie_goal'] . "kcal!\nProtein Goal: " . $calc['protein_goal'] . "g\nBody Fat: " . $bodyfat . "%\nWeight: " . $mass . "kg\nGood luck fatty!";
 $ch = curl_init("https://api.twilio.com/2010-04-01/Accounts/". $twilio['account'] . "/Messages.json?Body=$body&To=$to&From=$from");
 curl_setopt($ch, CURLOPT_HEADER, 0);
 curl_setopt($ch, CURLOPT_POST, 1);
