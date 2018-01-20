@@ -1,7 +1,8 @@
 <?php
 
-$user = [
-	'guid' => '1s1d1d1fwf2ff3g4v4g4',
+// @TODO - move to a database so this is secure... ;-)
+$userList[1] = [
+	'guid' => 1,
 	'name' => 'Bobby',
 	'sname' => 'DeVeaux',
 	'age'   => 32,
@@ -12,9 +13,25 @@ $user = [
 	'mobile'    => '+447584900848',
 ];
 
+$userList[2] = [
+	'guid' => 2,
+	'name' => 'Stephanie',
+	'sname' => 'DeVeaux',
+	'age'   => 32,
+	'height' => 165.10,
+	'lifestyle' => 'lchf',
+	'activity'  => 'low',
+	'deficit'   => 'moderate',
+	'mobile'    => '+447833492482',
+];
+
 $twilio['account'] = getenv('TWILIO_ACCOUNT');
 $twilio['user'] = getenv('TWILIO_USER');
 $twilio['auth'] = getenv('TWILIO_AUTH');
+
+$userId = $_GET['userid'];
+
+$user = $userList[$userId];
 
 $mass     = $_GET['mass'] ? $_GET['mass'] : 0;
 $bodyfat  = $_GET['bf'] ? $_GET['bf'] : 0;
@@ -80,10 +97,9 @@ $calc['height']  = $height;
 $output = json_encode($calc);
 //print $output;
 
-
 $message = formatMessage($user, $calc);
 
-echo $message;
+var_dump($message);
 
 $send = getenv("SEND_MESSAGE");
 if (getenv('SEND_MESSAGE') == 'true') {
@@ -131,6 +147,3 @@ function sendMessage($user, $twilio, $message) {
 
 	return $output;
 }
-
-
-
