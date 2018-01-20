@@ -2,26 +2,26 @@
 
 // @TODO - move to a database so this is secure... ;-)
 $userList[1] = [
-	'guid' => 1,
-	'name' => 'Bobby',
-	'sname' => 'DeVeaux',
-	'age'   => 32,
-	'height' => 180,
+	'guid'      => 1,
+	'name'      => 'Bobby',
+	'sname'     => 'DeVeaux',
+	'age'       => 32,
+	'height'    => 180,
 	'lifestyle' => 'lchf',
 	'activity'  => 'low',
-	'deficit'   => 'moderate',
+	'deficit'   => 'difficult',
 	'mobile'    => '+447584900848',
 ];
 
 $userList[2] = [
-	'guid' => 2,
-	'name' => 'Stephanie',
-	'sname' => 'DeVeaux',
-	'age'   => 32,
-	'height' => 165.10,
+	'guid'      => 2,
+	'name'      => 'Stephanie',
+	'sname'     => 'DeVeaux',
+	'age'       => 32,
+	'height'    => 165.10,
 	'lifestyle' => 'lchf',
 	'activity'  => 'low',
-	'deficit'   => 'moderate',
+	'deficit'   => 'easy',
 	'mobile'    => '+447833492482',
 ];
 
@@ -57,12 +57,39 @@ switch ($activity) {
 	default;
 	case "low":
 		$activityFactor = 1.2;
+		break;
+	case "light":
+		$activityFactor = 1.375;
+		break;
+	case "moderate":
+		$activityFactor = 1.55;
+		break;
+	case "very":
+		$activityFactor = 1.725;
+		break;
+	case "extreme":
+		$activityFactor = 1.9;
+		break;
+
 }
 
 switch ($deficit) {
 	default;
-	case "moderate":
+	case "slow":
+		$deficitGoal = 0.95;
+		break;
+	case "easy":
+		$deficitGoal = 0.90;
+		break;
+	case "medium":
+		$deficitGoal = 0.85;
+		break;
+	case "hard":
+		$deficitGoal = 0.80;
+		break;
+	case "difficult":
 		$deficitGoal = 0.75;
+		break;
 }
 
 $calc['tdee']         = round($calc['bmr']*$activityFactor,2);
