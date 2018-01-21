@@ -75,6 +75,9 @@ switch ($activity) {
 
 switch ($deficit) {
 	default;
+	case "leangains":
+		$deficitGoal = 1.2;
+		break;
 	case "slow":
 		$deficitGoal = 0.95;
 		break;
@@ -92,9 +95,9 @@ switch ($deficit) {
 		break;
 }
 
-$calc['tdee']         = round($calc['bmr']*$activityFactor,2);
+$calc['tdee']         = round($calc['bmr']*$activityFactor,0);
 $calc['calorie_goal'] = round($calc['tdee']*$deficitGoal,0);
-$calc['protein_goal'] = round($mass*2, 2);
+$calc['protein_goal'] = round($mass*2.2, 2);
 $calc['protein_cals'] = round($calc['protein_goal']*4, 2);
 
 switch ($lifestyle) {
@@ -138,6 +141,8 @@ function formatMessage($user, $calc) {
 	$message .= $user['name'] . "!\n";
 	$message .= "Weight: " . $calc['mass'] . "kg\n";
 	$message .= "Fat: " . $calc['bodyfat'] . "%\n";
+	$message .= "BMR: " . $calc['bmr'] . "kcal!\n";
+	$message .= "TDEE: " . $calc['tdee'] . "kcal!\n";
 	$message .= "Calorie goal: " . $calc['calorie_goal'] . "kcal!\n";
 	$message .= "Protein goal: " . $calc['protein_goal'] . "g\n";
 	$message .= "Carb goal: " . $calc['carb_goal'] . "g\n";
