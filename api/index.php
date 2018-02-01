@@ -5,7 +5,7 @@ $userList[1] = [
 	'guid'      => 1,
 	'name'      => 'Bobby',
 	'sname'     => 'DeVeaux',
-	'height'    => (71*2.54),
+	'height'    => 71*2.54,
 	'lifestyle' => 'lchf',
 	'activity'  => 'low',
 	'deficit'   => 'difficult',
@@ -24,6 +24,8 @@ $userList[2] = [
 	'deficit'   => 'easy',
 	'mobile'    => '+447833492482',
 ];
+
+
 
 $twilio['account'] = getenv('TWILIO_ACCOUNT');
 $twilio['user'] = getenv('TWILIO_USER');
