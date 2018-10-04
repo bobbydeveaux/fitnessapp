@@ -8,9 +8,9 @@ $userList[1] = [
 	'height'    => (71*2.54),
 	'lifestyle' => 'lchf',
 	'activity'  => 'low',
-	'deficit'   => 'difficult',
+	'deficit'   => 'medium',
 	'mobile'    => '+447584900848',
-	'naval'     => 32,
+	'naval'     => 31,
 	'neck'      => 15
 ];
 
@@ -43,13 +43,18 @@ $deficit  = $user['deficit'];
 
 if ($mass == 0 || $bodyfat == 0 || $height == 0) {
 	print "Mass / bodyfat / height must be > 0";
+	echo '<a href="/?bf=14&mass=75&userid=1">Example</a>';
 	exit;
 }
 
 putenv("DEBUG=true");
 
+$calc['navy']       = 86.010 * log10($user['naval']-$user['neck']) - 70.041*log10($user['height']/2.54)+36.76;
+$calc['navy']       = round($calc['navy'],2);
+$calc['bodyfat']    = $bodyfat;
+$calc['averagefat'] = round(($calc['navy']+$calc['bodyfat'])/2, 2);
 
-$calc['fatmass']  = round($mass*($bodyfat/100),2);
+$calc['fatmass']  = round($mass*($calc['averagefat']/100),2);
 $calc['leanmass'] = round($mass-$calc['fatmass'],2);
 $calc['bmr']      = round(370 + (21.6*$calc['leanmass']),2);
 
@@ -118,19 +123,16 @@ $calc['fat_goal']     = round($calc['fat_cals'] / 9, 2);
 
 $calc['bmi'] = round($mass/($height/100*$height/100), 2);
 
-$calc['mass']    = $mass;
-$calc['bodyfat'] = $bodyfat;
-$calc['height']  = $height;
-$calc['navy']    = 86.010 * log10($user['naval']-$user['neck']) - 70.041*log10($user['height']/2.54)+36.76;
 
 //print_r($calc);
 
-$output = json_encode($calc);
-//print $output;
+$output = json_encode(['calcs' => $calc, 'user' => $user]);
+
+print $output;
 
 $message = formatMessage($user, $calc);
 
-var_dump($message);
+var_dump(nl2br($message));
 
 $send = getenv("SEND_MESSAGE");
 if (getenv('SEND_MESSAGE') == 'true') {
@@ -141,10 +143,13 @@ function formatMessage($user, $calc) {
 	$message = "\n";
 	$message .= $user['name'] . "!\n";
 	$message .= "Weight: " . $calc['mass'] . "kg\n";
-	$message .= "Fat: " . $calc['bodyfat'] . "%\n";
+	$message .= "BIA Fat: " . $calc['bodyfat'] . "%\n";
 	$message .= "Navy Fat: " . $calc['navy'] . "%\n";
+	$message .= "Avg Fat: " . $calc['averagefat'] . "%\n";
 	$message .= "BMR: " . $calc['bmr'] . "kcal!\n";
+	$message .= "Activity Level: " . $user['activity'] . "\n";
 	$message .= "TDEE: " . $calc['tdee'] . "kcal!\n";
+	$message .= "Diet Choice: " . $user['lifestyle'] . "\n";
 	$message .= "Calorie goal: " . $calc['calorie_goal'] . "kcal!\n";
 	$message .= "Protein goal: " . $calc['protein_goal'] . "g\n";
 	$message .= "Carb goal: " . $calc['carb_goal'] . "g\n";
